@@ -1,0 +1,27 @@
+body {
+    margin: 0;
+}
+/*
+=================
+    layout
+=================
+*/
+
+#game {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+.game-frame {
+    flex-grow: 1;
+    display: flex;
+    padding: 1rem;
+}
+#grid {
+    width: 100%;
+}
+#grid td {
+    text-align: center;
+    vertical-align: center;
+    border: 1px solid silver;
+}
