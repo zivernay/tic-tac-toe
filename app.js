@@ -34,7 +34,8 @@ const Board = (function(size=3) {
         return grid
     };
     const grid = getGrid(size);
-    const getFreeCell = (index=2) => {
+
+    const getFreeCells = (index=2) => {
         const cells = [];
         for (let arr of grid) {
             if(arr[index] === null){
@@ -43,10 +44,11 @@ const Board = (function(size=3) {
         }
         return cells
     };
+
     const isFreeCell = (cell, index=2) => !(cell[index]);
     return {
          grid,
-         getFreeCell,
+         getFreeCells,
          isFreeCell,
         }
 })();
@@ -58,7 +60,10 @@ const ticTacToe = (function(Player, Board) {
 
     //Select dom elements that are required for manipulation
     const _domCache = {
-        grid: document.querySelector('#grid'),
+        game: document.querySelector('#game'),
+        header: game.querySelector("header"),
+        footer: game.querySelector("footer"),
+        grid: game.querySelector('#grid'),
         tds : grid.querySelectorAll("td"),
     };
 
@@ -89,9 +94,11 @@ const ticTacToe = (function(Player, Board) {
         player.play(cellIndex, cellElem);
         _render(cellElem, player.getPlayerMarker());
         if (player.getCells().length > 2) {
-            endGame(player.getCells())
+            if (endGame(player.getCells())) {
+                alert(`game over ${player.name} won`);
+            }
         }
-    }
+    };
 
 
     const _linearEquations = function(arr) {
@@ -102,48 +109,54 @@ const ticTacToe = (function(Player, Board) {
                 cyx = 0;
             const n = 2;
             for (let [x, y] of arr) {
-                switch (true) {
-                    case (x == i):
-                        cx++;
-                        if (cx > n) {
-                            return true
-                        }
-                        break;
-
-                    case (y == i):
-                        cy++;
-                        if (cy > n) {
-                            return true
-                        }
-                        break;
-
-                    case (y == x):
-                        cxy++;
-                        if (cxy > n) {
-                            return true
-                        }
-                        break;
-
-                    case (y == (-x + 3)):
-                        cxy++;
-                        if (cyx > n) {
-                            return true
-                        }
-                        break;
+                if (x == i) {
+                    cx++;
+                    if (cx > n) {
+                        return true
+                    }
+                } 
+                if (y == i) {
+                    cy++;
+                    if (cy > n) {
+                        return true
+                    }
                 }
+                if (y == x) {
+                    cxy++;
+                    if (cxy > n) {
+                        return true
+                    }
+                }
+                if (y == (-x + 3)) {
+                    cyx++;
+                    if (cyx > n) {
+                        return true
+                    }
+                };
             }
         }
     }
-
     const endGame = function (arr) {
         if (_linearEquations(arr)) {
-            console.log(`won`)
-        } else  {
-            console.log("draw")
+            console.log("win");
+        } else if (Board.getFreeCells().length < 1) {
+            console.log("draw");
         }
     }
 
+    const _resizeToSquare = function() {
+        const headerHeight = _domCache.header.clientHeight;
+        const footerHeight = _domCache.footer.clientHeight;
+        const elem = _domCache.grid.parentElement;
+        const elemHeight = document.body.clientHeight - headerHeight - footerHeight - 32//padding
+        const minDimension = Math.min(elemHeight, elem.clientWidth);
+        _domCache.grid.style.width = `${minDimension}px`;
+        _domCache.grid.style.height = `${minDimension}px`;
+        console.log("window resized!");
+    }
+    _resizeToSquare();
     _domCache.tds.forEach(element => {
        element.addEventListener("click", (e)=>{play(e.target)})
     });
+    window.addEventListener("resize", _resizeToSquare);
 })(Player, Board)

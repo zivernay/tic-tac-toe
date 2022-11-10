@@ -15,12 +15,15 @@ body {
 .game-frame {
     flex-grow: 1;
     display: flex;
+    justify-content: center;
+    align-items: center;
     padding: 1rem;
 }
 #grid {
     width: 100%;
 }
 #grid td {
+    width: 33.33%;
     text-align: center;
     vertical-align: center;
     border: 1px solid silver;
