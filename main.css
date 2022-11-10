@@ -28,3 +28,27 @@ body {
     vertical-align: center;
     border: 1px solid silver;
 }
+
+/*
+    player
+*/
+.player {
+    display: grid;
+    grid-template-columns:1.6rem repeat(2, minmax(50px, 150px));
+}
+.player .tag {
+    grid-area: 1 / 1 / 2 / 2;
+}
+.player .name {
+    grid-area: 1 / 2 / 2 / span 2;
+}
+.player .score {
+    grid-area: 2 / 2 / 3 / 3;
+}
+.player .quit {
+    grid-area: 2 / 3 / 3 / 4;
+}
+
+/*
+    options
+*/

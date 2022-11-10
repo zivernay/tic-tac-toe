@@ -24,7 +24,7 @@ const Player = function(marker, name="player 1") {
 }
 
 const Board = (function(size=3) {
-    const getGrid = (size) => {
+    const getGrid = (size=3) => {
         const grid = [];
         for(let y = size-1; y >= 0; y--){
             for(let x = 0; x < size; x++){
@@ -33,7 +33,7 @@ const Board = (function(size=3) {
         }
         return grid
     };
-    const grid = getGrid(size);
+    let grid = getGrid(size);
 
     const getFreeCells = (index=2) => {
         const cells = [];
@@ -48,6 +48,7 @@ const Board = (function(size=3) {
     const isFreeCell = (cell, index=2) => !(cell[index]);
     return {
          grid,
+         getGrid,
          getFreeCells,
          isFreeCell,
         }
@@ -65,6 +66,7 @@ const ticTacToe = (function(Player, Board) {
         footer: game.querySelector("footer"),
         grid: game.querySelector('#grid'),
         tds : grid.querySelectorAll("td"),
+        restart: game.querySelector('#restart'),
     };
 
     //Display  player moves in the grid
@@ -155,8 +157,17 @@ const ticTacToe = (function(Player, Board) {
         console.log("window resized!");
     }
     _resizeToSquare();
+
+    const _restart = function() {
+        Board.grid = Board.getGrid();
+        _domCache.tds.forEach((td)=> _render(td, '.'));
+    }
+
     _domCache.tds.forEach(element => {
        element.addEventListener("click", (e)=>{play(e.target)})
     });
+
     window.addEventListener("resize", _resizeToSquare);
+    
+    _domCache.restart.addEventListener('click', _restart);
 })(Player, Board)
