@@ -9,3 +9,7 @@ Simple game of tic toe game
     - Objects
     - Modules
     - DOM
+
+ToDo
+ - Add score track during multiple games
+ - Add smarter AI for using min max algo
