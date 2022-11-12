@@ -6,7 +6,10 @@ body {
     layout
 =================
 */
-
+.game-menu {
+    display: flex;
+    justify-content: space-between;
+}
 #game {
     display: flex;
     flex-direction: column;
@@ -34,7 +37,7 @@ body {
 */
 .player {
     display: grid;
-    grid-template-columns:1.6rem repeat(2, minmax(50px, 150px));
+    grid-template-columns:1.6rem repeat(1, minmax(50px, 150px));
 }
 .player .tag {
     grid-area: 1 / 1 / 2 / 2;
@@ -45,9 +48,7 @@ body {
 .player .score {
     grid-area: 2 / 2 / 3 / 3;
 }
-.player .quit {
-    grid-area: 2 / 3 / 3 / 4;
-}
+
 
 /*
     options
